@@ -11,9 +11,9 @@ const BannerBottom = () => {
           My Blog
         </p>
         <h3 className="text-xl font-bold md:text-3xl">
-          These 7 things will change the way you approach learning!
+          The Perfect Blend: Exploring Full Stack Development and Everyday Life
         </h3>
-        <p className="text-xs text-white/50">Camila Hoffman / 4 weeks ago</p>
+        <p className="text-xs text-white/50">Max Ma / 4 weeks ago</p>
       </div>
       <div className="flex w-full items-center justify-center gap-2 lg:w-[40%] lg:gap-8">
         <div className="group flex w-full flex-col items-center">
