@@ -54,7 +54,9 @@ export default function Home({ posts }: Props) {
                 </div>
                 <div className="flex h-2/5 w-full flex-col justify-center">
                   <div className="flex items-center justify-between border-b-[1px] border-b-gray-500 px-5 py-1">
-                    <p>{post.title}</p>
+                    <p className="font-titleFont text-xl font-bold uppercase">
+                      {post.title}
+                    </p>
                     <img
                       src={urlFor(post.author.image).url()!}
                       alt="authorImg"
