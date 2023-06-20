@@ -17,14 +17,14 @@ const Footer = () => {
         <div className="flex items-center gap-3">
           <Image
             src={logoLight}
-            width={80}
-            height={80}
+            width={100}
+            height={100}
             alt="logo"
-            style={{ width: '100%', height: '1.5rem' }}
+            style={{ width: 'auto', height: 'auto' }}
           />
           <p className="flex items-center gap-1 font-titleFont text-sm">
             <AiOutlineCopyrightCircle className="mt-[1px]" />
-            EasyBlog || all rights reserved
+            Max EasyBlog || all rights reserved
           </p>
         </div>
 
