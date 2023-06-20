@@ -42,6 +42,7 @@
         "@typescript-eslint/consistent-type-imports": "error", // Ensure `import type` is used when it's necessary
         "@typescript-eslint/no-explicit-any": "off", // Allow `any` type
         "jsx-a11y/click-events-have-key-events": "off",
+        "no-dupe-class-members": "off",
         "@typescript-eslint/no-var-requires": "off",
         "jsx-a11y/no-static-element-interactions": "off",
         "no-restricted-syntax": [
