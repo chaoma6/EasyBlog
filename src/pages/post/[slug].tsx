@@ -97,7 +97,9 @@ const PostPage = ({ post }: Props) => {
           <div className="mt-10">
             <PortableText
               dataset={process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'}
-              projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+              projectId={
+                process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rzwcrflf'
+              }
               content={post.body}
               serializers={{
                 h1: (props: any) => (
