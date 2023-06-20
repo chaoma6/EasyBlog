@@ -1,7 +1,11 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable react/no-unstable-nested-components */
 import type { GetStaticProps } from 'next';
-import React from 'react';
+import React, { useState } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import PortableText from 'react-portable-text';
 import type { Post } from 'typings';
 
@@ -14,7 +18,30 @@ interface Props {
   post: Post;
 }
 
+type Inputs = {
+  _id: string;
+  name: string;
+  email: string;
+  comment: string;
+};
+
 const PostPage = ({ post }: Props) => {
+  const [submitted, setSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    fetch('/api/createComment', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(() => setSubmitted(true))
+      .catch((err) => setSubmitted(false));
+  };
+
   const formattedPublishedAt = new Date(post.publishedAt).toLocaleDateString(
     'en-US',
     {
@@ -34,7 +61,7 @@ const PostPage = ({ post }: Props) => {
         alt="CoverImage"
       />
       {/* Article Content */}
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto mb-10 max-w-3xl">
         <article className="mx-auto w-full bg-secondaryColor/10 p-5">
           <h1 className="mb-3 mt-10 border-b-[1px] border-b-cyan-800 font-titleFont text-[32px] font-medium">
             {post.title}
@@ -92,6 +119,99 @@ const PostPage = ({ post }: Props) => {
             />
           </div>
         </article>
+        <hr className="mx-auto my-5 max-w-lg border-[1px] border-secondaryColor" />
+        <div>
+          <p className="font-titleFont text-xs font-bold uppercase text-secondaryColor">
+            Enjoyed this article?
+          </p>
+          <h3 className="font-titleFont text-3xl font-bold">
+            Leave a comment below!
+          </h3>
+          <hr className="mt-2 py-3" />
+          {/* Form */}
+          {/* {Generating Id for hooks form} */}
+          <input
+            {...register('_id')}
+            type="hidden"
+            name="_id"
+            value={post._id}
+          />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-7 flex flex-col gap-6"
+          >
+            <label className="flex flex-col" htmlFor="nameInput">
+              <span className="font-titleFont text-base font-semibold">
+                Name
+              </span>
+              <input
+                {...register('name', { required: true })}
+                id="nameInput"
+                type="text"
+                className="border-b-[1px] border-secondaryColor px-4 py-1 text-base shadow-secondaryColor outline-none placeholder:text-sm focus-within:shadow-xl"
+                placeholder="Enter your name"
+              />
+              {errors.name && (
+                <span className="text-sm text-red-500">
+                  This field is required
+                </span>
+              )}
+            </label>
+            <label className="flex flex-col" htmlFor="emailInput">
+              <span className="font-titleFont text-base font-semibold">
+                Email
+              </span>
+              <input
+                {...register('email', { required: true })}
+                id="emailInput"
+                type="email"
+                className="border-b-[1px] border-secondaryColor px-4 py-1 text-base shadow-secondaryColor outline-none placeholder:text-sm focus-within:shadow-xl"
+                placeholder="Enter your Email"
+              />
+              {errors.email && (
+                <span className="text-sm text-red-500">
+                  This field is required
+                </span>
+              )}
+            </label>
+            <label className="flex flex-col" htmlFor="textareaInput">
+              <span className="font-titleFont text-base font-semibold">
+                Comment
+              </span>
+              <textarea
+                {...register('comment', { required: true })}
+                id="textareaInput"
+                className="border-b-[1px] border-secondaryColor px-4 py-1 text-base shadow-secondaryColor outline-none placeholder:text-sm focus-within:shadow-xl"
+                placeholder="Enter your comments"
+                rows={6}
+              />
+              {errors.comment && (
+                <span className="text-sm text-red-500">
+                  This field is required
+                </span>
+              )}
+            </label>
+            <button
+              type="submit"
+              className="w-full rounded-sm bg-bgColor py-2 font-titleFont text-base font-semibold uppercase tracking-wider text-white duration-300 hover:bg-secondaryColor"
+            >
+              Submit
+            </button>
+          </form>
+          {/* {comments} */}
+          <div className="mx-auto my-10 flex w-full flex-col space-y-2 p-10 shadow-lg shadow-bgColor">
+            <h3 className="font-titleFont text-3xl font-semibold">Comments</h3>
+            <hr />
+            {post.comments.map((comment) => (
+              <div key={comment._id}>
+                <p>
+                  <span className="text-secondaryColor"> {comment.name}</span>{' '}
+                  {comment.comment}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <Footer />
     </div>
@@ -130,6 +250,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name,
       image
     },
+    "comments":[_type == "comment" && post._ref == ^._id && approved == true],
     description,
     mainImage,
     slug,
