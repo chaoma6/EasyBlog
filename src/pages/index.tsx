@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import 'slick-carousel/slick/slick.css';
 
@@ -21,25 +22,17 @@ export default function Home({ posts }: Props) {
   return (
     <div>
       <Head>
-        <title>My Blog | Explore the new horizon</title>
+        <title>My Blog | Explore the New Horizon</title>
         <link rel="icon" href="/smallLogo.ico" />
       </Head>
-
       <main className="font-bodyFont">
-        {/* ============ Header Start here ============ */}
         <Header />
-        {/* ============ Header End here ============== */}
-        {/* ============ Banner Start here ============ */}
         <Banner />
-        {/* ============ Banner End here ============== */}
-        <div className="relative mx-auto h-60 max-w-7xl">
+        <div className="relative mx-auto mb-2 max-w-7xl">
           <BannerBottom />
         </div>
-        {/* ============ Banner-Bottom End here ======= */}
-        {/* ============ Post Part Start here ========= */}
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-6 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 py-2 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {posts.map((post) => (
-            // eslint-disable-next-line no-underscore-dangle
             <Link key={post._id} href={`/post/${post.slug.current}`}>
               <div className="group h-[450px] border-[1px] border-secondaryColor border-opacity-40">
                 <div className="h-3/5 w-full overflow-hidden">
@@ -49,7 +42,7 @@ export default function Home({ posts }: Props) {
                     src={urlFor(post.mainImage).url()!}
                     alt="post image"
                     className="h-full w-full object-cover brightness-75 duration-300 group-hover:scale-110 group-hover:brightness-100"
-                    style={{ width: '100%', height: '100%' }}
+                    style={{ width: '100%', height: '100%', minHeight: '0' }}
                   />
                 </div>
                 <div className="flex h-2/5 w-full flex-col justify-center">
@@ -72,10 +65,7 @@ export default function Home({ posts }: Props) {
             </Link>
           ))}
         </div>
-        {/* ============ Post Part End here =========== */}
-        {/* ============ Footer Start here============= */}
         <Footer />
-        {/* ============ Footer End here ============== */}
       </main>
     </div>
   );
